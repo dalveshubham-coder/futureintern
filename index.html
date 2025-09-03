@@ -1,83 +1,309 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Shubham Dalve - Portfolio</title>
-    <meta name="description" content="Portfolio of Shubham Dalve - Full Stack Developer" />
-    
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&family=Roboto&display=swap" rel="stylesheet" />
-    
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    
-    <link rel="stylesheet" href="style.css">
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mini E-Commerce Platform</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom styles for better aesthetics if needed */
+        .product-card {
+            transition: transform 0.2s ease-in-out;
+        }
+        .product-card:hover {
+            transform: translateY(-5px);
+        }
+    </style>
 </head>
-<body>
+<body class="bg-gray-100 font-sans">
+    <div class="container mx-auto p-4 max-w-7xl">
+        <header class="text-center py-6 border-b border-gray-300 mb-8">
+            <h1 class="text-4xl font-extrabold text-gray-900"> E-Commerce</h1>
+            <p class="mt-2 text-lg text-gray-600">Explore our curated collection of products.</p>
+        </header>
 
-    <nav>
-        <div class="logo">Shubham Dalve</div>
-        <ul>
-            <li><a href="#home" aria-label="Home Section">Home</a></li>
-            <li><a href="#about" aria-label="About Section">About</a></li>
-            <li><a href="#projects" aria-label="Projects Section">Projects</a></li>
-            <li>
-                <span class="notification-icon" aria-label="Notifications">
-                    <i class="fas fa-bell"></i>
-                    <span class="notification-badge" id="notificationBadge" style="display: none;">0</span>
-                </span>
-            </li>
-        </ul>
-        <button id="profileBtn" aria-haspopup="dialog" aria-controls="profileModal">Profile</button>
-    </nav>
-
-    <main>
-        <section id="contact" tabindex="-1" aria-label="Contact Section">
-            <h2>Contact Me</h2>
-            <div id="successMessage" class="success-message" role="alert" style="display:none;">Thank you for your message! I will get back to you soon.</div>
-            <form id="contactForm" novalidate>
-                <input type="text" id="name" name="name" placeholder="Your Name" aria-label="Your Name" required />
-                <input type="email" id="email" name="email" placeholder="Your Email" aria-label="Your Email" required />
-                <textarea id="message" name="message" placeholder="Your Message" aria-label="Your Message" rows="6" required></textarea>
-                <button type="submit" aria-label="Send Message">Send</button>
-            </form>
+        <section id="product-list" class="mb-12">
+            <h2 class="text-3xl font-bold mb-6 text-gray-800">Products</h2>
+            <div class="mb-6 flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
+                <input id="search-input" type="text" placeholder="Search products..." class="flex-grow border p-3 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 transition-all duration-300">
+                <select id="filter-select" class="border p-3 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 transition-all duration-300">
+                    <option value="">All Categories</option>
+                    <option value="electronics">Electronics</option>
+                    <option value="clothing">Clothing</option>
+                    <option value="books">Books</option>
+                </select>
+            </div>
+            <div id="products-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                </div>
         </section>
 
-        <div id="content-right">
-            <section id="home" tabindex="-1" aria-label="Home Section">
-                <img src="img1.jpg" alt="Shubham Dalve Profile Picture" />
-                <h1>Hi, I'm Shubham Dalve</h1>
-                <p>BCS Computer Science student with strong programming and problem-solving skills.</p>
-            </section>
+        <hr class="my-12">
 
-            <section id="about" tabindex="-1" aria-label="About Section">
-                <h2>About Me</h2>
-                <p>I am a BCS Computer Science student . I am passionate about programming, web development, and problem-solving, with a solid foundation in data structures and algorithms.</p>
-            </section>
+        <section id="cart-section" class="bg-white p-6 rounded-lg shadow-xl mb-12">
+            <h2 class="text-3xl font-bold mb-6 text-gray-800">Shopping Cart</h2>
+            <div id="cart-items" class="divide-y divide-gray-200">
+                </div>
+            <div id="cart-total" class="mt-6 text-2xl font-bold text-right text-gray-800"></div>
+            <div class="mt-6 text-right">
+                <button id="clear-cart-btn" class="bg-red-500 text-white px-6 py-3 rounded-lg hover:bg-red-600 transition-colors duration-300">Clear Cart</button>
+            </div>
+        </section>
 
-            <section id="projects" tabindex="-1" aria-label="Projects Section">
-                <h2>Projects</h2>
-                <ul class="projects" aria-live="polite">
-                </ul>
-            </section>
-        </div>
-    </main>
+        <hr class="my-12">
 
-    <footer>
-        <p>© 2024 Shubham Dalve</p>
-    </footer>
+        <section id="checkout-section" class="bg-white p-6 rounded-lg shadow-xl mb-12">
+            <h2 class="text-3xl font-bold mb-6 text-gray-800">Checkout</h2>
+            <form id="checkout-form" class="space-y-4">
+                <div>
+                    <label class="block mb-2 text-sm font-medium text-gray-700" for="name">Full Name</label>
+                    <input type="text" id="name" class="border p-3 w-full rounded-lg shadow-sm focus:ring-green-500 focus:border-green-500 transition-all duration-300" required>
+                </div>
+                <div>
+                    <label class="block mb-2 text-sm font-medium text-gray-700" for="email">Email Address</label>
+                    <input type="email" id="email" class="border p-3 w-full rounded-lg shadow-sm focus:ring-green-500 focus:border-green-500 transition-all duration-300" required>
+                </div>
+                <div>
+                    <label class="block mb-2 text-sm font-medium text-gray-700" for="address">Shipping Address</label>
+                    <textarea id="address" class="border p-3 w-full rounded-lg shadow-sm focus:ring-green-500 focus:border-green-500 transition-all duration-300" rows="4" required></textarea>
+                </div>
+                <button type="submit" id="place-order-btn" class="w-full bg-green-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-green-700 transition-colors duration-300">Place Order</button>
+            </form>
+            <div id="order-message" class="mt-6 text-center hidden text-green-600 font-bold text-lg">Order placed successfully!</div>
+        </section>
 
-    <div id="profileModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" aria-describedby="modalDesc" tabindex="-1">
-        <div class="modal-content">
-            <button class="close-btn" aria-label="Close Profile Modal">&times;</button>
-            <img src="img1.jpg" alt="Shubham Dalve Profile Picture" />
-            <h3 id="modalTitle">Shubham Dalve</h3>
-            <p id="modalDesc">BCS Computer Science student with strong programming and problem-solving skills. Dedicated, hardworking, and determined to achieve goals with discipline and focus.</p>
-            <p>Connect with me on <a href="https://www.linkedin.com/in/shubham-dalve-19299b2a5" target="_blank" rel="noopener noreferrer" style="color:#6366f1;">LinkedIn</a>.</p>
-        </div>
+        <hr class="my-12">
+
+        <section id="login-section" class="bg-white p-6 rounded-lg shadow-xl mb-12">
+            <h2 class="text-3xl font-bold mb-6 text-gray-800">User Login</h2>
+            <div id="login-form">
+                <div class="mb-4">
+                    <label class="block mb-2 text-sm font-medium text-gray-700" for="username">Username</label>
+                    <input type="text" id="username" class="border p-3 w-full rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 transition-all duration-300">
+                </div>
+                <button id="login-btn" class="w-full bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors duration-300">Login</button>
+                <div id="login-message" class="mt-4 text-center"></div>
+            </div>
+            <div id="user-panel" class="hidden">
+                <p class="text-lg text-gray-700">Welcome, <span id="welcome-user" class="font-bold"></span>! <button id="logout-btn" class="text-red-600 hover:underline">Logout</button></p>
+                <h3 class="text-2xl font-semibold mt-6 mb-4 text-gray-800">Your Order History</h3>
+                <ul id="order-history" class="list-disc pl-5 space-y-2 text-gray-600"></ul>
+            </div>
+        </section>
+
     </div>
 
-    <script src="script.js"></script>
+    <script>
+        const products = [
+            { id: 1, name: "Premium Smartphone", category: "electronics", price: 65999, image: "https://placehold.co/400x300?text=Smartphone" },
+            { id: 2, name: "Stylish T-Shirt", category: "clothing", price: 999, image: "https://placehold.co/400x300?text=T-Shirt" },
+            { id: 3, name: "High-Performance Laptop", category: "electronics", price: 119999, image: "https://placehold.co/400x300?text=Laptop" },
+            { id: 4, name: "JavaScript Essentials", category: "books", price: 1299, image: "https://placehold.co/400x300?text=Book" },
+            { id: 5, name: "Denim Jeans", category: "clothing", price: 1899, image: "https://placehold.co/400x300?text=Jeans" },
+            { id: 6, name: "Wireless Headphones", category: "electronics", price: 7499, image: "https://placehold.co/400x300?text=Headphones" },
+            { id: 7, name: "The Great Indian Novel", category: "books", price: 499, image: "https://placehold.co/400x300?text=Novel" },
+            { id: 8, name: "Smartwatch", category: "electronics", price: 12999, image: "https://placehold.co/400x300?text=Smartwatch" }
+        ];
 
+        let state = {
+            products: products,
+            cart: [],
+            currentUser: localStorage.getItem('user') || null,
+            orderHistory: JSON.parse(localStorage.getItem('orderHistory')) || []
+        };
+
+        const searchInput = document.getElementById('search-input');
+        const filterSelect = document.getElementById('filter-select');
+        const productsGrid = document.getElementById('products-grid');
+        const cartItems = document.getElementById('cart-items');
+        const cartTotal = document.getElementById('cart-total');
+        const checkoutForm = document.getElementById('checkout-form');
+        const orderMessage = document.getElementById('order-message');
+        const loginBtn = document.getElementById('login-btn');
+        const loginMessage = document.getElementById('login-message');
+        const userPanel = document.getElementById('user-panel');
+        const welcomeUser = document.getElementById('welcome-user');
+        const logoutBtn = document.getElementById('logout-btn');
+        const orderHistoryList = document.getElementById('order-history');
+        const clearCartBtn = document.getElementById('clear-cart-btn');
+
+        function renderProducts(filtered = products) {
+            productsGrid.innerHTML = '';
+            filtered.forEach(product => {
+                const productCard = document.createElement('div');
+                productCard.className = 'bg-white rounded-lg shadow-lg overflow-hidden product-card';
+                productCard.innerHTML = `
+                    <img src="${product.image}" alt="${product.name}" class="h-56 w-full object-cover">
+                    <div class="p-6">
+                        <h3 class="font-bold text-xl text-gray-800 mb-1">${product.name}</h3>
+                        <p class="text-gray-500 text-sm mb-2">${product.category}</p>
+                        <p class="text-2xl font-extrabold text-blue-600 mb-4">₹${product.price.toFixed(2)}</p>
+                        <button data-id="${product.id}" class="add-to-cart w-full bg-blue-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-blue-700 transition-colors duration-300">Add to Cart</button>
+                    </div>
+                `;
+                productsGrid.appendChild(productCard);
+            });
+        }
+
+        productsGrid.addEventListener('click', (e) => {
+            if (e.target.classList.contains('add-to-cart')) {
+                const productId = parseInt(e.target.dataset.id);
+                const existing = state.cart.find(item => item.id === productId);
+                if (existing) {
+                    existing.quantity++;
+                } else {
+                    state.cart.push({ id: productId, quantity: 1 });
+                }
+                renderCart();
+            }
+        });
+
+        function renderCart() {
+            cartItems.innerHTML = '';
+            let total = 0;
+            if (state.cart.length === 0) {
+                cartItems.innerHTML = '<p class="text-center text-gray-500 py-4">Your cart is empty.</p>';
+            }
+            state.cart.forEach(item => {
+                const product = state.products.find(p => p.id === item.id);
+                if (!product) return;
+                const itemTotal = product.price * item.quantity;
+                total += itemTotal;
+                const cartItem = document.createElement('div');
+                cartItem.className = 'flex justify-between items-center py-4';
+                cartItem.innerHTML = `
+                    <div class="flex items-center space-x-4">
+                        <img src="${product.image}" alt="${product.name}" class="w-16 h-16 rounded-md object-cover">
+                        <div>
+                            <p class="font-semibold text-gray-800">${product.name}</p>
+                            <p class="text-sm text-gray-600">₹${product.price.toFixed(2)} x ${item.quantity}</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <span class="font-semibold text-gray-800">₹${itemTotal.toFixed(2)}</span>
+                        <button data-id="${item.id}" class="quantity-btn minus px-2 bg-gray-300 rounded-full hover:bg-gray-400 transition-colors duration-200">-</button>
+                        <span class="px-2">${item.quantity}</span>
+                        <button data-id="${item.id}" class="quantity-btn plus px-2 bg-gray-300 rounded-full hover:bg-gray-400 transition-colors duration-200">+</button>
+                        <button data-id="${item.id}" class="remove-btn text-red-600 ml-2 hover:text-red-800 transition-colors duration-200">Remove</button>
+                    </div>
+                `;
+                cartItems.appendChild(cartItem);
+            });
+            cartTotal.textContent = `Total: ₹${total.toFixed(2)}`;
+        }
+
+        cartItems.addEventListener('click', (e) => {
+            const id = parseInt(e.target.dataset.id);
+            const item = state.cart.find(item => item.id === id);
+            if (!item) return;
+
+            if (e.target.classList.contains('plus')) {
+                item.quantity++;
+            } else if (e.target.classList.contains('minus')) {
+                item.quantity = Math.max(1, item.quantity - 1);
+            } else if (e.target.classList.contains('remove-btn')) {
+                state.cart = state.cart.filter(item => item.id !== id);
+            }
+            renderCart();
+        });
+
+        clearCartBtn.addEventListener('click', () => {
+            state.cart = [];
+            renderCart();
+        });
+
+        function filterProducts() {
+            const query = searchInput.value.toLowerCase();
+            const category = filterSelect.value;
+            const filtered = state.products.filter(p => {
+                const matchesSearch = p.name.toLowerCase().includes(query);
+                const matchesCategory = category ? p.category === category : true;
+                return matchesSearch && matchesCategory;
+            });
+            renderProducts(filtered);
+        }
+        searchInput.addEventListener('input', filterProducts);
+        filterSelect.addEventListener('change', filterProducts);
+
+        checkoutForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            if (state.cart.length === 0) {
+                alert("Your cart is empty. Please add items before checking out.");
+                return;
+            }
+
+            const order = {
+                id: Date.now(),
+                items: state.cart.map(item => ({ ...item })), // Deep copy
+                name: document.getElementById('name').value,
+                email: document.getElementById('email').value,
+                address: document.getElementById('address').value,
+                date: new Date().toLocaleString()
+            };
+
+            state.orderHistory.push(order);
+            localStorage.setItem('orderHistory', JSON.stringify(state.orderHistory));
+            
+            state.cart = [];
+            renderCart();
+            
+            orderMessage.classList.remove('hidden');
+            setTimeout(() => orderMessage.classList.add('hidden'), 5000);
+            checkoutForm.reset();
+            renderOrderHistory();
+        });
+
+        loginBtn.addEventListener('click', () => {
+            const username = document.getElementById('username').value.trim();
+            if (username) {
+                state.currentUser = username;
+                localStorage.setItem('user', username);
+                renderUserPanel();
+                loginMessage.textContent = 'Logged in successfully!';
+                loginMessage.className = 'mt-4 text-center text-green-600 font-bold';
+                setTimeout(() => loginMessage.textContent = '', 2000);
+            }
+        });
+
+        logoutBtn.addEventListener('click', () => {
+            state.currentUser = null;
+            localStorage.removeItem('user');
+            renderUserPanel();
+        });
+
+        function renderUserPanel() {
+            const loginForm = document.getElementById('login-form');
+            if (state.currentUser) {
+                welcomeUser.textContent = state.currentUser;
+                userPanel.classList.remove('hidden');
+                loginForm.style.display = 'none';
+                renderOrderHistory();
+            } else {
+                userPanel.classList.add('hidden');
+                loginForm.style.display = 'block';
+            }
+        }
+
+        function renderOrderHistory() {
+            orderHistoryList.innerHTML = '';
+            if (state.orderHistory.length === 0) {
+                orderHistoryList.innerHTML = '<li class="text-gray-500">No past orders.</li>';
+                return;
+            }
+            state.orderHistory.forEach(order => {
+                const li = document.createElement('li');
+                const total = order.items.reduce((sum, item) => {
+                    const product = state.products.find(p => p.id === item.id);
+                    return sum + (product ? product.price * item.quantity : 0);
+                }, 0);
+                li.innerHTML = `Order #${order.id} on <span class="font-medium">${order.date}</span>. Total: <span class="font-bold text-green-600">₹${total.toFixed(2)}</span>`;
+                orderHistoryList.appendChild(li);
+            });
+        }
+
+        renderProducts();
+        renderCart();
+        renderUserPanel();
+    </script>
 </body>
 </html>
